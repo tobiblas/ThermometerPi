@@ -1,6 +1,18 @@
 import os
 import glob
 import time
+import sys
+
+if len(sys.argv) != 2:
+    print "Usage: python sense_temp.py [save|nosave]"
+    sys.exit()
+saveStr = sys.argv[1]
+
+saveData = False
+if (saveStr == "save") {
+    saveData = True
+}
+
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -24,10 +36,12 @@ def read_temp():
     if equals_pos != -1:
         temp_string = lines[1][equals_pos+2:]
         temp_c = float(temp_string) / 1000.0
-        temp_f = temp_c * 9.0 / 5.0 + 32.0
-        return temp_c, temp_f
-	
-while True:
-	print(read_temp())	
-	time.sleep(1)
+        return temp_c
+
+temp = read_temp()
+
+sys.stdout.write(temp + '\n')
+sys.stdout.flush()
+sys.exit(0)
+
 

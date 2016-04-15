@@ -54,7 +54,7 @@ print subprocess.Popen("sudo mkdir -p /var/www/html/thermometer && sudo cp -R ph
 
 print "-----------"
 
-#################ALARM FILES, CONFIG ETC######################
+#################THERMO FILES, CONFIG ETC######################
 thermoPath = "/home/pi/thermometer"
 
 print "Installing thermometer files in " + thermoPath
