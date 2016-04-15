@@ -61,13 +61,12 @@ function menuselected(itemselected) {
     <label class="menulabel" for="menucheckbox2" <?php echo ($menuselected == 1 ? "style='background-color :#477186;'" : "") ?> >History</label>
 </div>
 
-
 </div>
 
 
 <?php
     if ($menuselected == 0) {
-        include("status.php");
+        include("current_temp.php");
     } else if ($menuselected == 1) {
         include("history.php");
     }

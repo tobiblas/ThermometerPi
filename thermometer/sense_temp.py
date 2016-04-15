@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import glob
 import time
@@ -9,9 +11,8 @@ if len(sys.argv) != 2:
 saveStr = sys.argv[1]
 
 saveData = False
-if (saveStr == "save") {
+if (saveStr == "save"):
     saveData = True
-}
 
 
 os.system('modprobe w1-gpio')
@@ -40,8 +41,7 @@ def read_temp():
 
 temp = read_temp()
 
-sys.stdout.write(temp + '\n')
-sys.stdout.flush()
+print temp
 sys.exit(0)
 
 
