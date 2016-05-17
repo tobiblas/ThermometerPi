@@ -43,6 +43,14 @@ if "sqlite3" not in phpPath:
 else:
     print "sqlite3 already installed. Skipping"
 
+# create temp.db
+
+#CREATE TABLE TEMP(
+#                  ...>     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP PRIMARY KEY,
+#                  ...>     temp REAL,
+#                           location TEXT
+#                  ...> );
+
 print "-----------"
 
 ################# MOVE PHP PAGE TO RIGHT PLACE ###############
@@ -62,6 +70,7 @@ print subprocess.Popen("mkdir -p " + thermoPath, shell=True, stdout=subprocess.P
 if not thermoPath.endswith("/"):
 	thermoPath += "/"
 print subprocess.Popen("cp -R thermometer/* " + thermoPath, shell=True, stdout=subprocess.PIPE).stdout.read()
+
 
 #if isServer:
 #    print "Adding alarm home to admin.properties"

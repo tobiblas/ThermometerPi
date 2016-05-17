@@ -49,16 +49,22 @@ function menuselected(itemselected) {
     $menuitem = $_GET['menuitem'];
     if ($menuitem == 1) {
         $menuselected = 1;
+    } else if ($menuitem == 2) {
+        $menuselected = 2;
     }
 ?>
 
-<div class="col-6 menu">
+<div class="col-4 menu">
     <input type="checkbox" <?php echo ($menuselected == 0 ? "checked " : "");?> onclick="menuselected(0)" class="menucheckbox" id="menucheckbox1">
 <label class="menulabel" for="menucheckbox1" <?php echo ($menuselected == 0 ? "style='background-color :#477186;'" : "") ?> >Status</label>
 </div>
-<div class="col-6 menu">
+<div class="col-4 menu">
     <input type="checkbox" <?php echo ($menuselected == 1 ? "checked " : "");?> onclick="menuselected(1)" class="menucheckbox" id="menucheckbox2">
     <label class="menulabel" for="menucheckbox2" <?php echo ($menuselected == 1 ? "style='background-color :#477186;'" : "") ?> >History</label>
+</div>
+<div class="col-4 menu">
+<input type="checkbox" <?php echo ($menuselected == 2 ? "checked " : "");?> onclick="menuselected(2)" class="menucheckbox" id="menucheckbox3">
+<label class="menulabel" for="menucheckbox3" <?php echo ($menuselected == 2 ? "style='background-color :#477186;'" : "") ?> >Settings</label>
 </div>
 
 </div>
@@ -66,9 +72,11 @@ function menuselected(itemselected) {
 
 <?php
     if ($menuselected == 0) {
-        include("current_temp.php");
+        include("status.php");
     } else if ($menuselected == 1) {
         include("history.php");
+    } else if ($menuselected == 2) {
+        include("settings.php");
     }
 ?>
 
