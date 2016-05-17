@@ -58,8 +58,7 @@ onkeydown="if (event.keyCode == 13) setProperty('openweatherApiKey', '' + docume
 <div id="setting">
 Unit<br>
 
-<input type="radio" name="unit" id="unit" value="kelvin" onclick="setProperty('unit', 'kelvin')" <?php if ($config['unit'] != NULL && $config['unit'] == "kelvin") { echo 'checked';} ?> >
-<label class="unit" for="kelvin">°K</label><br>
+<input type="radio" name="unit" id="unit" value="kelvin" onclick="setProperty('unit', 'kelvin')" <?php if ($config['unit'] != NULL && $config['unit'] == "kelvin") { echo 'checked';} ?> ><label class="unit" for="kelvin">°K</label><br>
 
 <input type="radio" name="unit" id="unit" value="celsius" onclick="setProperty('unit', 'celsius')" <?php if ($config['unit'] != NULL && $config['unit'] == "celsius") { echo 'checked';} ?> ><label class="unit" for="celsius">°C</label><br>
 

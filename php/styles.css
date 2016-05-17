@@ -89,6 +89,29 @@ hr {
     border-color: #cccccc;
 }
 
+.temperature {
+    text-align:center;
+    padding: 20px 20px 20px 20px;
+    margin-top:20px;
+    color: #6E92A1;
+    font-size:xx-large;
+    font-style:bold
+    height: 50px;
+    line-height: 50px;
+}
+
+.temperaturelocation  {
+    text-align:center;
+    padding: 20px 20px 20px 20px;
+    margin-top:20px;
+    color: #6E92A1;
+    font-size:x-large;
+    font-style:bold
+    height: 50px;
+    line-height: 50px;
+    
+}
+
 #setting {
     padding: 10px 0px 10px 0px;
 }
