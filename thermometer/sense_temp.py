@@ -40,7 +40,7 @@ def read_temp():
         return temp_c
 
 temp = read_temp()
-
+temp += 273.15 #KELVIN FTW
 print temp
 sys.exit(0)
 

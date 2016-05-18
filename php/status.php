@@ -2,8 +2,12 @@
 <script>
 
 function load(idOfOutdoorElement, apiKey, location, unit) {
+    if (apiKey == null || apiKey.trim() == "") {
+        return;
+    }
     var request = new XMLHttpRequest();
-    request.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q=' + location + '&appid=' + apiKey, true);
+    var requestStr = 'http://api.openweathermap.org/data/2.5/weather?q=' + location + '&appid=' + apiKey;
+    request.open('GET', requestStr, true);
     
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
@@ -50,18 +54,43 @@ function load(idOfOutdoorElement, apiKey, location, unit) {
 
 
 <?php
-    if ($config['openweatherApiKey'] != null) {
+    if ($config['openweatherApiKey'] != null && trim($config['openweatherApiKey']) != '') {
+        echo '<div class="row">';
+        echo '<div class="col-6">';
+        echo '<div class="temperaturelocation">';
+        echo $config['outdoorLocation'];
+        echo '</div>';
+        echo '</div>';
+        echo '<div class="col-6">';
+        echo '<div class="temperature" id="outdoortemp">';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+
+    }
+    
+    if ($config['deviceIPs'] != null && $config['devices'] != null && trim($config['devices']) != '' && trim($config['deviceIPs']) != '') {
         
+        $IPs = explode(',', $config['deviceIPs']);
+        $devices = explode(',', $config['devices']);
+        foreach($IPs as $index => $IP) {
+            $IP = trim($IP);
+            echo '<div class="row">';
+            echo '<div class="col-6">';
+            echo '<div class="temperaturelocation">';
+            echo $devices[$index];
+            echo '</div>';
+            echo '</div>';
+            echo '<div class="col-6">';
+            echo '<div class="temperature" id="fetchedOutdoortemp">';
+            echo '<script>alert("Det här är ' . $IP . '");</script>';
+            echo '3';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+        }
+    } else {
+        echo "No configured devices";
     }
 ?>
-<div class="row"><div class="col-6"><div class="temperaturelocation">
-<?php echo $config['outdoorLocation'] ?>
-</div>
-</div>
-<div class="col-6"><div class="temperature" id="outdoortemp">
-</div>
-
-</div>
-
-</div>
 
