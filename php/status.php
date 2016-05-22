@@ -1,6 +1,53 @@
 
 <script>
 
+function fetchTempFromRaspberryPi(IP, idOfTempElement, unit) {
+
+    var request = new XMLHttpRequest();
+    var requestStr = "http.php?url=" + IP + "/temp/current_temp.php";
+    request.open('GET', requestStr, true);
+    
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var temp = parseFloat(request.responseText);
+            //alert (temp);
+            //Felhantering här
+            temp = temp + 273.15;
+            
+            var theElement = document.getElementById(idOfTempElement);
+            
+            tempStr = "";
+            if (unit === "kelvin") {
+                tempStr = (Math.round(temp * 10) / 10) + " °K"
+            } else if (unit === "fahrenheit") {
+                var num = (1.8 * (temp - 273.15) + 32);
+                tempStr =  (Math.round(num * 10) / 10) + " °F";
+            } else {
+                var num = temp - 273.15;
+                tempStr = "" + (Math.round(num * 10) / 10) + " °C";
+            }
+            
+            theElement.innerHTML = tempStr;
+        } else {
+            // We reached our target server, but it returned an error
+            alert ("error for IP " + IP + ": " + request.responseText);
+            var theElement = document.getElementById(idOfTempElement);
+            theElement.innerHTML = "Error";
+        }
+    };
+    
+    request.onerror = function() {
+        alert("There was a connection error of some sort for " + IP);
+         alert ("error for IP " + IP + ": " + request.responseText);
+        var theElement = document.getElementById(idOfTempElement);
+        theElement.innerHTML = "Error";
+    };
+    
+    request.send();
+
+}
+
 function load(idOfOutdoorElement, apiKey, location, unit) {
     if (apiKey == null || apiKey.trim() == "") {
         return;
@@ -75,19 +122,18 @@ function load(idOfOutdoorElement, apiKey, location, unit) {
         $devices = explode(',', $config['devices']);
         foreach($IPs as $index => $IP) {
             $IP = trim($IP);
-            echo '<div class="row">';
-            echo '<div class="col-6">';
-            echo '<div class="temperaturelocation">';
-            echo $devices[$index];
-            echo '</div>';
-            echo '</div>';
-            echo '<div class="col-6">';
-            echo '<div class="temperature" id="fetchedOutdoortemp">';
-            echo '<script>alert("Det här är ' . $IP . '");</script>';
-            echo '3';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
+            echo '<div class="row">' . PHP_EOL;
+            echo '<div class="col-6">' . PHP_EOL;
+            echo '<div class="temperaturelocation">' . PHP_EOL;
+            echo $devices[$index] . PHP_EOL;
+            echo '</div>' . PHP_EOL;
+            echo '</div>' . PHP_EOL;
+            echo '<div class="col-6">' . PHP_EOL;
+            echo '<div class="temperature" id="'.$devices[$index].'">' . PHP_EOL;
+            echo '<img src="images/loading-big.gif" height="40" /></div>' . PHP_EOL;
+            echo '</div>' . PHP_EOL;
+            echo '</div>' . PHP_EOL;
+            echo '<script>fetchTempFromRaspberryPi("'. $IP .'", "' .$devices[$index] . '", "' . $config['unit'] .'");</script>' . PHP_EOL;
         }
     } else {
         echo "No configured devices";
