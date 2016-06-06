@@ -76,7 +76,7 @@ print subprocess.Popen("cp -R thermometer/* " + thermoPath, shell=True, stdout=s
 #    print "Adding alarm home to admin.properties"
 #    print subprocess.Popen('echo "alarm_home:' + alarmPath + '" | sudo tee /var/www/html/alarm/admin.properties', shell=True, stdout=subprocess.PIPE).stdout.read()
 print "Making the alarm application available for the php server"
-print subprocess.Popen('sudo chmod 777 ' + alarmPath + '/*', shell=True, stdout=subprocess.PIPE).stdout.read()
+print subprocess.Popen('sudo chmod 777 ' + thermoPath + '/*', shell=True, stdout=subprocess.PIPE).stdout.read()
 print subprocess.Popen('sudo chmod 777 /var/www/html/thermometer/admin.properties', shell=True, stdout=subprocess.PIPE).stdout.read()
 
 
