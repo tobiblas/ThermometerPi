@@ -13,7 +13,6 @@ function fetchTempFromRaspberryPi(IP, idOfTempElement, unit) {
             var temp = parseFloat(request.responseText);
             //alert (temp);
             //Felhantering här
-            temp = temp + 273.15;
             
             var theElement = document.getElementById(idOfTempElement);
             
