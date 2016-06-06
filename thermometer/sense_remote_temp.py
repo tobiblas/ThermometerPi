@@ -83,7 +83,11 @@ def remoteFetchTemp():
         url = "http://" + line.strip() + "/temp/current_temp.php"
         temperature = fetchFrom(url, 3)
         if temperature is None:
-            print "Could not connect to " + url + ". skipping"
+            print "Could not connect to " + url + ". trying one more time in 10 seconds"
+            time.sleep(10)
+            temperature = fetchFrom(url, 3)
+        if temperature is None:
+            print "Failed once more."
         else:
             print "got temp " + temperature + " in " + devicesSplit[i]
             saveTemp(temperature, devicesSplit[i])
