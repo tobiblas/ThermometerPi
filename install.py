@@ -79,6 +79,7 @@ print "Making the thermometer application available for the php server"
 print subprocess.Popen('sudo chmod 777 ' + thermoPath + '/*', shell=True, stdout=subprocess.PIPE).stdout.read()
 print subprocess.Popen('sudo chmod 777 /var/www/html/thermometer/admin.properties', shell=True, stdout=subprocess.PIPE).stdout.read()
 
+print "todo. add this to crontab: 0 4,15 * * * python /home/pi/thermometer/sense_remote_temp.py /var/www/html/thermometer 1> /home/pi/templog.txt 2> /home/pi/templog.err"
 
 ##############################################################
 

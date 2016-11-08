@@ -18,8 +18,6 @@ location = sys.argv[1]
 if not location.endswith("/"):
     location += "/"
 
-location += "../php/"
-
 def fetchFrom(url, attemptsLeft):
     print "Fetching from " + url + " attempts left " + str(attemptsLeft)
     try:
@@ -48,12 +46,12 @@ def createTables(cursor):
 
 
 def saveTemp(temperature, device):
-    dbName = "temperature.db"
+    dbName = "/home/pi/temperature.db"
     conn = sqlite3.connect(dbName)
     c = conn.cursor()
     createTables(c)
     epoch_time = int(time.time())
-    sql = "insert into temperature values("+ str(epoch_time) +", \""+ device +"\", " + temperature.lstrip() + ")"
+    sql = "insert into temperature values("+ str(epoch_time) +", \""+ device +"\", " + str(temperature) + ")"
     print sql
     c.execute(sql)
     conn.commit()
@@ -65,11 +63,11 @@ def fetchOutdoorTemp(myprops):
     location = myprops['outdoorLocation']
     unit = myprops['unit']
 
-    requestStr = 'http://api.openweathermap.org/data/2.5/weather?q=' + location + '&appid=' + apiKey
+    requestStr = 'http://api.openweathermap.org/data/2.5/weather?q=' + location + '&appid=' + apiKey + '&units=metric'
     temp = fetchFrom(requestStr, 3)
     
     j = json.loads(temp)
-    print "YES WE GOT IT" + j['outdoortemp']
+    saveTemp(j['main']['temp'], location)
 
 
 def remoteFetchTemp():
@@ -97,7 +95,7 @@ def remoteFetchTemp():
 
     i = 0
     for line in ips.split(","):
-        url = "http://" + line.strip() + "/temp/current_temp.php"
+        url = "http://" + line.strip() + "/thermometer/current_temp.php"
         temperature = fetchFrom(url, 3)
         if temperature is None:
             print "Could not connect to " + url + ". trying one more time in 10 seconds"
@@ -107,7 +105,7 @@ def remoteFetchTemp():
             print "Failed once more."
         else:
             print "got temp " + temperature + " in " + devicesSplit[i]
-            saveTemp(temperature, devicesSplit[i])
+            saveTemp(float(temperature) - 273.15, devicesSplit[i])
         i = i + 1
 
 
