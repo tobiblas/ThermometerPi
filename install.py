@@ -83,4 +83,4 @@ print subprocess.Popen('sudo chmod 777 /var/www/html/thermometer/admin.propertie
 ##############################################################
 
 print
-print "Congratulation! Now go to <IP of your raspberry>/thermometer" +  + "and configure your thermometer."
+print "Congratulation! Now go to <IP of your raspberry>/thermometer and configure your thermometer."

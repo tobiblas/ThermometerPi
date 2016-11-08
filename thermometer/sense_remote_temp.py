@@ -7,6 +7,7 @@ import urllib2
 import threading
 from urllib2 import URLError
 import sqlite3
+import json
 
 
 if len(sys.argv) != 2:
@@ -58,6 +59,18 @@ def saveTemp(temperature, device):
     conn.commit()
     conn.close()
 
+def fetchOutdoorTemp(myprops):
+
+    apiKey = myprops['openweatherApiKey']
+    location = myprops['outdoorLocation']
+    unit = myprops['unit']
+
+    requestStr = 'http://api.openweathermap.org/data/2.5/weather?q=' + location + '&appid=' + apiKey
+    temp = fetchFrom(requestStr, 3)
+    
+    j = json.loads(temp)
+    print "YES WE GOT IT" + j['outdoortemp']
+
 
 def remoteFetchTemp():
     print "Fetching remote temp"
@@ -77,6 +90,10 @@ def remoteFetchTemp():
     ips = myprops['deviceIPs']
     devices = myprops['devices']
     devicesSplit = devices.split(",")
+
+    if 'openweatherApiKey' in myprops.keys() and myprops['openweatherApiKey'].strip() != "":
+        print "there is an apikey! TODO fetch the temp!"
+        fetchOutdoorTemp(myprops)
 
     i = 0
     for line in ips.split(","):
