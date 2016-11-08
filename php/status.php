@@ -4,7 +4,7 @@
 function fetchTempFromRaspberryPi(IP, idOfTempElement, unit) {
 
     var request = new XMLHttpRequest();
-    var requestStr = "http.php?url=" + IP + "/temp/current_temp.php";
+    var requestStr = "http.php?url=" + IP + "/thermometer/current_temp.php";
     request.open('GET', requestStr, true);
     
     request.onload = function() {
