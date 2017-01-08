@@ -58,17 +58,16 @@ def saveTemp(temperature, device):
     conn.close()
 
 def fetchOutdoorTemp(myprops):
-
+    
     apiKey = myprops['openweatherApiKey']
     location = myprops['outdoorLocation']
     unit = myprops['unit']
-
+    
     requestStr = 'http://api.openweathermap.org/data/2.5/weather?q=' + location + '&appid=' + apiKey + '&units=metric'
     temp = fetchFrom(requestStr, 3)
     
     j = json.loads(temp)
-    saveTemp(j['main']['temp'], location)
-
+    saveTemp(float(j['main']['temp']), location)
 
 def remoteFetchTemp():
     print "Fetching remote temp"
@@ -84,15 +83,11 @@ def remoteFetchTemp():
             k, v = line.split(":", 1)
             myprops[k] = v
     print myprops
-    
+
     ips = myprops['deviceIPs']
     devices = myprops['devices']
     devicesSplit = devices.split(",")
-
-    if 'openweatherApiKey' in myprops.keys() and myprops['openweatherApiKey'].strip() != "":
-        print "there is an apikey! TODO fetch the temp!"
-        fetchOutdoorTemp(myprops)
-
+    
     i = 0
     for line in ips.split(","):
         url = "http://" + line.strip() + "/thermometer/current_temp.php"
@@ -107,6 +102,10 @@ def remoteFetchTemp():
             print "got temp " + temperature + " in " + devicesSplit[i]
             saveTemp(float(temperature) - 273.15, devicesSplit[i])
         i = i + 1
+    
+    if 'openweatherApiKey' in myprops.keys() and myprops['openweatherApiKey'].strip() != "":
+        fetchOutdoorTemp(myprops)
 
 
 remoteFetchTemp()
+

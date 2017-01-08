@@ -6,16 +6,55 @@ google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-                                                     ['Year', 'Sales', 'Expenses'],
-                                                     ['2004',  1000,      400],
-                                                     ['2005',  1170,      460],
-                                                     ['2006',  660,       1120],
-                                                     ['2007',  1030,      540]
-                                                     ]);
+    
+    <?php
+    include("db.php");
+    
+    $location = "";
+    $locations = array();
+    $query =  "select distinct location from temperature";
+    
+    echo "let dataArray = [\n";
+    echo "['Time'";
+    foreach ($dbh->query($query) as $row) {
+        echo ",'" . $row[0] .  "'";
+        array_push($locations, $row[0]);
+    }
+    echo "]";
+    date_default_timezone_set('GMT');
+    $dataPoints = array();
+    foreach ($locations as &$value) {
+        $query = "select timestamp,temp from temperature where location = '" . $value . "'";
+        foreach ($dbh->query($query) as $row) {
+            $epoch = $row[0];
+            $dt = new DateTime("@$epoch");
+            $dataPoints[ $dt->format('Y-m-d H:i') ][$value] = $row[1];
+        }
+    }
+    ksort($dataPoints);
+    
+    #print_r($dataPoints);
+    
+    foreach ($dataPoints as $k => $v) {
+        echo ",['" . $k . "'";
+        foreach ($locations as &$value) {
+            $temp = $v[$value];
+            if ($temp == null) {
+                echo ", null" ;
+            } else {
+                echo "," . $temp;
+            }
+            
+        }
+        echo "]\n";
+    }
+    echo "];";
+    ?>
+    
+    var data = google.visualization.arrayToDataTable(dataArray);
     
     var options = {
-    title: 'Company Performance',
+    title: 'Temperature',
     curveType: 'function',
     legend: { position: 'bottom' }
     };
@@ -24,9 +63,13 @@ function drawChart() {
     
     chart.draw(data, options);
 }
+
+
 </script>
+
+
 </head>
 <body>
-<div id="curve_chart" style="width: 900px; height: 500px"></div>
+<div id="curve_chart" style="width: 500px; height: 500px"></div>
 </body>
 </html>
