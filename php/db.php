@@ -1,7 +1,11 @@
-
 <?php
-    #CREATE TABLE VOTES(NAME TEXT NOT NULL, CONTESTNUMBER INT, VOTE TEXT NOT NULL);
-    #CREATE TABLE RESULT(CONTESTNUMBER INT, VOTE TEXT NOT NULL);
-    $dir = 'sqlite:/Users/tobiblas/Sites/schlager2/schlagervoting/schlager2016.db';
-    $dbh  = new PDO($dir) or die("cannot open the database");
+    #$dir = 'sqlite:/Users/tobiblas/Sites/ThermometerPi/ThermometerPi/temperature.db';
+    $dir = 'sqlite:/home/pi/temperature.db';
+    
+    try {
+        $dbh  = new PDO($dir) or die("cannot open the database");
+    } catch (PDOException $e) {
+        print "Error!: " . $e->getMessage() . "<br/>";
+        die();
+    }
 ?>

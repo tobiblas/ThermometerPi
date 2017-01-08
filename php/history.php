@@ -28,7 +28,7 @@ function drawChart() {
         foreach ($dbh->query($query) as $row) {
             $epoch = $row[0];
             $dt = new DateTime("@$epoch");
-            $dataPoints[ $dt->format('Y-m-d H:i') ][$value] = $row[1];
+            $dataPoints[ $dt->format('Y-m-d H') ][$value] = $row[1];
         }
     }
     ksort($dataPoints);
@@ -70,6 +70,6 @@ function drawChart() {
 
 </head>
 <body>
-<div id="curve_chart" style="width: 500px; height: 500px"></div>
+<div id="curve_chart" style="width: 100%; height: 100%;"></div>
 </body>
 </html>
