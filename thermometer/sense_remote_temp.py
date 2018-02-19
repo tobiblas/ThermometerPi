@@ -18,6 +18,8 @@ location = sys.argv[1]
 if not location.endswith("/"):
     location += "/"
 
+addTime = 0
+
 def fetchFrom(url, attemptsLeft):
     print "Fetching from " + url + " attempts left " + str(attemptsLeft)
     try:
@@ -46,11 +48,13 @@ def createTables(cursor):
 
 
 def saveTemp(temperature, device):
+    global addTime
     dbName = "/home/pi/temperature.db"
     conn = sqlite3.connect(dbName)
     c = conn.cursor()
     createTables(c)
-    epoch_time = int(time.time())
+    epoch_time = int(time.time()) + addTime
+    addTime = addTime + 1
     sql = "insert into temperature values("+ str(epoch_time) +", \""+ device +"\", " + str(temperature) + ")"
     print sql
     c.execute(sql)
@@ -58,28 +62,28 @@ def saveTemp(temperature, device):
     conn.close()
 
 def fetchOutdoorTemp(myprops):
-    
+
     apiKey = myprops['openweatherApiKey']
     location = myprops['outdoorLocation']
     unit = myprops['unit']
-    
+
     requestStr = 'http://api.openweathermap.org/data/2.5/weather?q=' + location + '&appid=' + apiKey + '&units=metric'
     temp = fetchFrom(requestStr, 3)
-    
+
     j = json.loads(temp)
     saveTemp(float(j['main']['temp']), location)
 
 def remoteFetchTemp():
     print "Fetching remote temp"
-    
+
     myprops = {}
     with open(location + 'admin.properties', 'r') as f:
         for line in f:
             line = line.rstrip() #removes trailing whitespace and '\n' chars
-            
+
             if ":" not in line: continue #skips blanks and comments w/o =
             if line.startswith("#"): continue #skips comments which contain =
-            
+
             k, v = line.split(":", 1)
             myprops[k] = v
     print myprops
@@ -87,7 +91,7 @@ def remoteFetchTemp():
     ips = myprops['deviceIPs']
     devices = myprops['devices']
     devicesSplit = devices.split(",")
-    
+
     i = 0
     for line in ips.split(","):
         url = "http://" + line.strip() + "/thermometer/current_temp.php"
@@ -102,10 +106,9 @@ def remoteFetchTemp():
             print "got temp " + temperature + " in " + devicesSplit[i]
             saveTemp(float(temperature) - 273.15, devicesSplit[i])
         i = i + 1
-    
+
     if 'openweatherApiKey' in myprops.keys() and myprops['openweatherApiKey'].strip() != "":
         fetchOutdoorTemp(myprops)
 
 
 remoteFetchTemp()
-

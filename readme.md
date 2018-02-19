@@ -16,5 +16,8 @@ ls
 cd 28-xxxx (change this to match what serial number pops up)
 cat w1_slave
 
+#enable sqlite3 for php
+sudo apt-get install php5-sqlite
+
 There it is!
 
