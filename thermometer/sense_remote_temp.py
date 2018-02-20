@@ -8,7 +8,8 @@ import threading
 from urllib2 import URLError
 import sqlite3
 import json
-
+import pytz
+from datetime import datetime
 
 if len(sys.argv) != 2:
     print "Usage: python sense_remote_temp.py temp_home"
@@ -53,7 +54,9 @@ def saveTemp(temperature, device):
     conn = sqlite3.connect(dbName)
     c = conn.cursor()
     createTables(c)
-    epoch_time = int(time.time()) + addTime
+    tz = pytz.timezone('Europe/Berlin')
+    tzOffsetInSeconds = tz.utcoffset(datetime.now()).total_seconds()
+    epoch_time = int(time.time() + tzOffsetInSeconds) + addTime
     addTime = addTime + 1
     sql = "insert into temperature values("+ str(epoch_time) +", \""+ device +"\", " + str(temperature) + ")"
     print sql
