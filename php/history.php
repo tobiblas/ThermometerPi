@@ -18,7 +18,7 @@ function drawChart() {
     $query =  "select distinct location from temperature";
 
     foreach ($dbh->query($query) as $row) {
-        echo "data.addColumn('number', '" . $row[0] . "');";
+        echo "data.addColumn('number', '" . $row[0] . "');\n";
         array_push($locations, $row[0]);
     }
 
@@ -34,7 +34,7 @@ function drawChart() {
     }
     ksort($dataPoints);
 
-    #print_r($dataPoints);
+    print_r($dataPoints);
 
     foreach ($dataPoints as $k => $v) {
         echo ",['" . $k . "'";
