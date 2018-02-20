@@ -59,12 +59,19 @@ onkeydown="if (event.keyCode == 13) setProperty('openweatherApiKey', '' + docume
 Unit<br>
 
 <input type="radio" name="unit" id="unit" value="kelvin" onclick="setProperty('unit', 'kelvin')" <?php if ($config['unit'] != NULL && $config['unit'] == "kelvin") { echo 'checked';} ?> ><label class="unit" for="kelvin">°K</label><br>
-
 <input type="radio" name="unit" id="unit" value="celsius" onclick="setProperty('unit', 'celsius')" <?php if ($config['unit'] != NULL && $config['unit'] == "celsius") { echo 'checked';} ?> ><label class="unit" for="celsius">°C</label><br>
-
 <input type="radio" name="unit" id="unit" value="fahrenheit" onclick="setProperty('unit', 'fahrenheit')" <?php if ($config['unit'] != NULL && $config['unit'] == "fahrenheit") { echo 'checked';} ?> ><label class="unit" for="fahrenheit">°F</label>
 
 </div>
+
+<div id="setting">
+Pellet boiler<br>
+
+<input type="radio" name="pellet" id="pellet" value="on" onclick="setProperty('pellet', 'on')" <?php if ($config['pellet'] != NULL && $config['pellet'] == "on") { echo 'checked';} ?> ><label class="pellet" for="on">ON</label><br>
+<input type="radio" name="pellet" id="pellet" value="off" onclick="setProperty('pellet', 'off')" <?php if ($config['pellet'] != NULL && $config['pellet'] == "off") { echo 'checked';} ?> ><label class="pellet" for="off">OFF</label><br>
+
+</div>
+
 <br>
 Save each field by pressing enter.
 </div>
@@ -72,4 +79,3 @@ Save each field by pressing enter.
 </div>
 
 </div>
-
