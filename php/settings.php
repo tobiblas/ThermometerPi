@@ -67,8 +67,8 @@ Unit<br>
 <div id="setting">
 Pellet boiler<br>
 
-<input type="radio" name="pellet" id="pellet" value="on" onclick="setProperty('pellet', 'Pellets på')" <?php if ($config['pellet'] != NULL && $config['pellet'] == "on") { echo 'checked';} ?> ><label class="pellet" for="on">ON</label><br>
-<input type="radio" name="pellet" id="pellet" value="off" onclick="setProperty('pellet', 'Pellets av')" <?php if ($config['pellet'] != NULL && $config['pellet'] == "off") { echo 'checked';} ?> ><label class="pellet" for="off">OFF</label><br>
+<input type="radio" name="pellet" id="pellet" value="on" onclick="setProperty('pellet', 'Pellets på')" <?php if ($config['pellet'] != NULL && $config['pellet'] == "Pellets på") { echo 'checked';} ?> ><label class="pellet" for="on">ON</label><br>
+<input type="radio" name="pellet" id="pellet" value="off" onclick="setProperty('pellet', 'Pellets av')" <?php if ($config['pellet'] != NULL && $config['pellet'] == "Pellets av") { echo 'checked';} ?> ><label class="pellet" for="off">OFF</label><br>
 
 </div>
 
