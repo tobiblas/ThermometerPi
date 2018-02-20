@@ -31,11 +31,12 @@
         $label = "Pellets av";
       }
       include("db.php");
-      $sql = "create table if not exists event (timestamp INTEGER PRIMARY KEY, label TEXT)";
+      $sql = "create table if not exists event(timestamp INTEGER PRIMARY KEY, label TEXT)";
       $dbh->query($sql);
-      $sql = "create index if not exists EVENT_IDX on event(timestamp)"
+      $sql = "create index if not exists EVENT_IDX on event(timestamp);";
       $dbh->query($sql);
-      $query = 'insert into event values("' . $time . '","' . $label . '")';
+      $time = time();
+      $query = 'insert into event values(' . $time . ',"' . $label . '");';
       $dbh->query($query);
     }
 ?>
