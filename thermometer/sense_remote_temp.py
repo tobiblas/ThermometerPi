@@ -11,10 +11,13 @@ import json
 import pytz
 from datetime import datetime
 
-if len(sys.argv) != 2:
-    print "Usage: python sense_remote_temp.py temp_home"
+if len(sys.argv) < 2:
+    print "Usage: python sense_remote_temp.py temp_home <OPTIONAL:label>"
     sys.exit()
 location = sys.argv[1]
+label = None
+if len(sys.argv) == 3:
+    label = sys.argv[2]
 
 if not location.endswith("/"):
     location += "/"
@@ -42,7 +45,7 @@ def fetchFrom(url, attemptsLeft):
             return fetchFrom(url, attemptsLeft-1)
 
 def createTables(cursor):
-    sql = "create table if not exists temperature (timestamp INTEGER PRIMARY KEY, location TEXT, temp REAL)"
+    sql = "create table if not exists temperature (timestamp INTEGER PRIMARY KEY, location TEXT, temp REAL, label TEXT)"
     cursor.execute(sql)
     sql = "create index if not exists TEMP_IDX on temperature(timestamp)"
     cursor.execute(sql)
@@ -58,7 +61,11 @@ def saveTemp(temperature, device):
     tzOffsetInSeconds = tz.utcoffset(datetime.now()).total_seconds()
     epoch_time = int(time.time() + tzOffsetInSeconds) + addTime
     addTime = addTime + 1
-    sql = "insert into temperature values("+ str(epoch_time) +", \""+ device +"\", " + str(temperature) + ")"
+    sql = ""
+    if label is None:
+        sql = "insert into temperature values("+ str(epoch_time) +", \""+ device +"\", " + str(temperature) + ",null)"
+    else:
+        sql = "insert into temperature values("+ str(epoch_time) +", \""+ device +"\", " + str(temperature) + ",\"" + label + "\")"
     print sql
     c.execute(sql)
     conn.commit()
