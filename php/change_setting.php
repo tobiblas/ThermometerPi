@@ -24,19 +24,7 @@
     file_put_contents('admin.properties', $new_file_data);
 
     if ($key_sent == 'pellet') {
-      $label = "";
-      if ($value_sent == 'ON') {
-        $label = "Pellets på";
-      } else if ($value_sent == 'OFF') {
-        $label = "Pellets av";
-      }
-      include("db.php");
-      $sql = "create table if not exists event(timestamp INTEGER PRIMARY KEY, label TEXT)";
-      $dbh->query($sql);
-      $sql = "create index if not exists EVENT_IDX on event(timestamp);";
-      $dbh->query($sql);
-      $time = time();
-      $query = 'insert into event values(' . $time . ',"' . $label . '");';
-      $dbh->query($query);
+      $command = '/home/pi/thermometer/sense_remote_temp.py /var/www/html/thermometer/ $value_sent';
+      echo exec($command . ' 2>&1');
     }
 ?>
