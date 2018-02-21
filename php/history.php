@@ -37,7 +37,7 @@ function drawChart() {
     }
     ksort($dataPoints);
 
-    print_r($dataPoints);
+    #print_r($dataPoints);
 
     #data.addRow(["J", null,  3.5, 0.5, 1]);
     #data.addRow(["K", 'Pellets av',  4, 1, 0.5]);
@@ -54,33 +54,41 @@ function drawChart() {
 #             [Malmö, Sweden] => 0.74
 #             [Kitchen] => 23.125
 #         )
-
+#print_r($locations);
     # k är datum, v är en ARRAY name -> temp, där name kan vara en annotation
     foreach ($dataPoints as $k => $datapoint) {
         echo 'data.addRow(["' . $k . '"';
         $orderOfTemps = array();
-
+        array_push($orderOfTemps, null);
+        for ($x = 0; $x < sizeof($locations); $x++) {
+          array_push($orderOfTemps, null);
+        }
         foreach ($datapoint as $locationOrLabel => $temp) {
-            $temp = $locations[$locationOrLabel];
-            if ($temp == null) {
-              $orderOfTemps[0] = $locationOrLabel;
+          #echo ( $locationOrLabel);
+            if (in_array($locationOrLabel, $locations)) {
+              $indexInArray = array_search("$locationOrLabel",$locations);
+          #    echo "searching for " . $locationOrLabel . " in locations. Result " . $indexInArray;
+              $orderOfTemps[$indexInArray+1] = $temp;
             } else {
-              $indexInArray = array_search($locationOrLabel,$locations);
-              $orderOfTemps[$indexInArray] = $temp;
+              $orderOfTemps[0] = $locationOrLabel;
             }
         }
-
-        print_r($orderOfTemps);
+        #echo "orderoftemps:";
+        #print_r($orderOfTemps);
 
         $label = $orderOfTemps[0];
         if ($label == null) {
-          echo ',"' . $label . '"';
-        } else {
           echo ',null';
+        } else {
+          echo ',"' . $label . '"';
         }
 
-        for ($x = 1; $orderOfTemps[$x] != null; $x++) {
+        for ($x = 1; $x < sizeof($orderOfTemps); $x++) {
+          if ($orderOfTemps[$x] == null) {
+            echo ',null';
+          } else {
             echo ',' . $orderOfTemps[$x];
+          }
         }
 
         echo "]";
