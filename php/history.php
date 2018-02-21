@@ -8,6 +8,7 @@ google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'x');
+    data.addColumn({type: 'string', role: 'annotation'});
     <?php
     include("db.php");
 
@@ -18,9 +19,7 @@ function drawChart() {
     foreach ($dbh->query($query) as $row) {
         echo "data.addColumn('number', '" . $row[0] . "');\n";
         array_push($locations, $row[0]);
-    }?>
-    data.addColumn({type: 'string', role: 'annotation'});
-    <?php
+    }
     date_default_timezone_set('GMT');
     $dataPoints = array();
     foreach ($locations as &$value) {
@@ -32,12 +31,13 @@ function drawChart() {
                 $dataPoints[ $dt->format('Y-m-d H:i') ][$value] = $row[1];
             } else {
                 $dataPoints[ $dt->format('Y-m-d H:i') ][$row[2]] = $row[1];
+                $dataPoints[ $dt->format('Y-m-d H:i') ][$value] = $row[1];
             }
         }
     }
     ksort($dataPoints);
 
-    #print_r($dataPoints);
+    print_r($dataPoints);
 
     #data.addRow(["J", null,  3.5, 0.5, 1]);
     #data.addRow(["K", 'Pellets av',  4, 1, 0.5]);
@@ -47,15 +47,15 @@ function drawChart() {
     foreach ($dataPoints as $k => $v) {
         #echo ",['" . $k . "'";
         echo 'data.addRow(["' . $k . '"';
-
+        $stringToAdd = '';
         $locationFound = FALSE;
         foreach ($locations as &$value) {
             $temp = $v[$value];
             if ($temp != null) {
                 $locationFound = TRUE;
-                echo "," . $temp;
+                $stringToAdd += "," . $temp;
             } else {
-                echo ",null";
+                $stringToAdd += ",null";
             }
         }
         if ($locationFound == FALSE) {
