@@ -29,7 +29,11 @@ function drawChart() {
         foreach ($dbh->query($query) as $row) {
             $epoch = $row[0];
             $dt = new DateTime("@$epoch");
-            $dataPoints[ $dt->format('Y-m-d H') ][$value] = $row[1];
+            if ($row[2] == null) {
+                $dataPoints[ $dt->format('Y-m-d H:i:s') ][$value] = $row[1];
+            } else {
+                $dataPoints[ $dt->format('Y-m-d H:i:s') ][$row[2]] = $row[1];
+            }
         }
     }
     ksort($dataPoints);
