@@ -53,9 +53,9 @@ function drawChart() {
             $temp = $v[$value];
             if ($temp != null) {
                 $locationFound = TRUE;
-                $stringToAdd += "," . $temp;
+                $stringToAdd = $stringToAdd . "," . $temp;
             } else {
-                $stringToAdd += ",null";
+                $stringToAdd = $stringToAdd . ",null";
             }
         }
         if ($locationFound == FALSE) {
