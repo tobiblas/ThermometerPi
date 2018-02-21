@@ -62,10 +62,11 @@ function drawChart() {
           echo ',"' . key($v) . '"';
         }
         echo "]";
+        echo ");\n";
     }
-    echo ");\n";
-    ?>
 
+    ?>
+    
     new google.visualization.LineChart(document.getElementById('visualization')).
       draw(data, {
         title: 'Temperature',
