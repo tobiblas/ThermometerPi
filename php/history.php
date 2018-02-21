@@ -58,15 +58,15 @@ function drawChart() {
                 echo ",null";
             }
         }
-        if ($locationFound == TRUE) {
-          echo ',"' . key($v) . '"';
+        if ($locationFound == FALSE) {
+          echo ',"' . 'PELLETS ARE POU' . '"';
         }
         echo "]";
         echo ");\n";
     }
 
     ?>
-    
+
     new google.visualization.LineChart(document.getElementById('visualization')).
       draw(data, {
         title: 'Temperature',
