@@ -37,7 +37,7 @@ function drawChart() {
     }
     ksort($dataPoints);
 
-    #print_r($dataPoints);
+    print_r($dataPoints);
 
     #data.addRow(["J", null,  3.5, 0.5, 1]);
     #data.addRow(["K", 'Pellets av',  4, 1, 0.5]);
