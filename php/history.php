@@ -69,17 +69,19 @@ function drawChart() {
 
     ?>
 
-    new google.visualization.LineChart(document.getElementById('visualization')).
-      draw(data, {
-        title: 'Temperature',
-        curveType: 'function',
-        legend: { position: 'bottom' },
-        annotations: {
-                style: 'line'
-            }
-        });
-      }
+    var options = {
+    title: 'Temperature',
+    curveType: 'function',
+    legend: { position: 'bottom' },
+    annotations: {
+            style: 'line'
+        }
+    };
 
+    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+    chart.draw(data, options);
+}
 
 </script>
 
