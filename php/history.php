@@ -8,8 +8,6 @@ google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'x');
-    data.addColumn({type: 'string', role: 'annotation'});
-
     <?php
     include("db.php");
 
@@ -20,8 +18,9 @@ function drawChart() {
     foreach ($dbh->query($query) as $row) {
         echo "data.addColumn('number', '" . $row[0] . "');\n";
         array_push($locations, $row[0]);
-    }
-
+    }?>
+    data.addColumn({type: 'string', role: 'annotation'});
+    <?php
     date_default_timezone_set('GMT');
     $dataPoints = array();
     foreach ($locations as &$value) {
@@ -38,36 +37,45 @@ function drawChart() {
     }
     ksort($dataPoints);
 
-    print_r($dataPoints);
+    #print_r($dataPoints);
 
+    #data.addRow(["J", null,  3.5, 0.5, 1]);
+    #data.addRow(["K", 'Pellets av',  4, 1, 0.5]);
+    # ,['2016-11-09 04:00:05',-0.02, null, null, null]
+
+    # k är datum, v är en ARRAY name -> temp, där name kan vara en annotation
     foreach ($dataPoints as $k => $v) {
-        echo ",['" . $k . "'";
+        #echo ",['" . $k . "'";
+        echo 'data.addRow(["' . $k . '"';
+
+        $locationFound = FALSE;
         foreach ($locations as &$value) {
             $temp = $v[$value];
-            if ($temp == null) {
-                echo ", null" ;
-            } else {
+            if ($temp != null) {
+                $locationFound = TRUE;
                 echo "," . $temp;
+            } else {
+                echo ",null"
             }
-
+        }
+        if ($locationFound == TRUE) {
+          echo ',"' . key($v) . '"';
         }
         echo "]\n";
     }
-    echo "];";
+    echo ");";
     ?>
 
-    var data = google.visualization.arrayToDataTable(dataArray);
-
-    var options = {
-    title: 'Temperature',
-    curveType: 'function',
-    legend: { position: 'bottom' }
-    };
-
-    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-    chart.draw(data, options);
-}
+    new google.visualization.LineChart(document.getElementById('visualization')).
+      draw(data, {
+        title: 'Temperature',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        annotations: {
+                style: 'line'
+            }
+        });
+      }
 
 
 </script>
