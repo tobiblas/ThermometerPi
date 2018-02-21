@@ -29,9 +29,9 @@ function drawChart() {
             $epoch = $row[0];
             $dt = new DateTime("@$epoch");
             if ($row[2] == null) {
-                $dataPoints[ $dt->format('Y-m-d H:i:s') ][$value] = $row[1];
+                $dataPoints[ $dt->format('Y-m-d H:i') ][$value] = $row[1];
             } else {
-                $dataPoints[ $dt->format('Y-m-d H:i:s') ][$row[2]] = $row[1];
+                $dataPoints[ $dt->format('Y-m-d H:i') ][$row[2]] = $row[1];
             }
         }
     }
