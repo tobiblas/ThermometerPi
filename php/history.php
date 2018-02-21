@@ -55,15 +55,15 @@ function drawChart() {
                 $locationFound = TRUE;
                 echo "," . $temp;
             } else {
-                echo ",null"
+                echo ",null";
             }
         }
         if ($locationFound == TRUE) {
           echo ',"' . key($v) . '"';
         }
-        echo "]\n";
+        echo "]";
     }
-    echo ");";
+    echo ");\n";
     ?>
 
     new google.visualization.LineChart(document.getElementById('visualization')).
