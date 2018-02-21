@@ -104,20 +104,20 @@ def remoteFetchTemp():
     devicesSplit = devices.split(",")
 
     i = 0
-    if label is None:
-        for line in ips.split(","):
-            url = "http://" + line.strip() + "/thermometer/current_temp.php"
+
+    for line in ips.split(","):
+        url = "http://" + line.strip() + "/thermometer/current_temp.php"
+        temperature = fetchFrom(url, 3)
+        if temperature is None:
+            print "Could not connect to " + url + ". trying one more time in 10 seconds"
+            time.sleep(10)
             temperature = fetchFrom(url, 3)
-            if temperature is None:
-                print "Could not connect to " + url + ". trying one more time in 10 seconds"
-                time.sleep(10)
-                temperature = fetchFrom(url, 3)
-            if temperature is None:
-                print "Failed once more."
-            else:
-                print "got temp " + temperature + " in " + devicesSplit[i]
-                saveTemp(float(temperature) - 273.15, devicesSplit[i])
-            i = i + 1
+        if temperature is None:
+            print "Failed once more."
+        else:
+            print "got temp " + temperature + " in " + devicesSplit[i]
+            saveTemp(float(temperature) - 273.15, devicesSplit[i])
+        i = i + 1
 
     if 'openweatherApiKey' in myprops.keys() and myprops['openweatherApiKey'].strip() != "":
         fetchOutdoorTemp(myprops)
