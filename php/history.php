@@ -43,26 +43,46 @@ function drawChart() {
     #data.addRow(["K", 'Pellets av',  4, 1, 0.5]);
     # ,['2016-11-09 04:00:05',-0.02, null, null, null]
 
+#    [2018-02-21 10:59] => Array
+#         (
+#             [Pellets av] => 0.74
+#             [Malmö, Sweden] => 0.74
+#         )
+#
+#     [2018-02-21 11:00] => Array
+#         (
+#             [Malmö, Sweden] => 0.74
+#             [Kitchen] => 23.125
+#         )
+
     # k är datum, v är en ARRAY name -> temp, där name kan vara en annotation
-    foreach ($dataPoints as $k => $v) {
-        #echo ",['" . $k . "'";
+    foreach ($dataPoints as $k => $datapoint) {
         echo 'data.addRow(["' . $k . '"';
-        $stringToAdd = '';
-        $locationFound = FALSE;
-        foreach ($locations as &$value) {
-            $temp = $v[$value];
-            if ($temp != null) {
-                $locationFound = TRUE;
-                $stringToAdd = $stringToAdd . "," . $temp;
+        $orderOfTemps = array();
+
+        foreach ($datapoint as $locationOrLabel => $temp) {
+            $temp = $locations[$locationOrLabel];
+            if ($temp == null) {
+              $orderOfTemps[0] = $locationOrLabel;
             } else {
-                $stringToAdd = $stringToAdd . ",null";
+              $indexInArray = array_search($locationOrLabel,$locations);
+              $orderOfTemps[$indexInArray] = $temp;
             }
         }
-        if ($locationFound == FALSE) {
-          echo ',"' . 'Pellets' . '"' . $stringToAdd;
+
+        print_r($orderOfTemps);
+
+        $label = $orderOfTemps[0];
+        if ($label == null) {
+          echo ',"' . $label . '"';
         } else {
-          echo ',null' . $stringToAdd;
+          echo ',null';
         }
+
+        for ($x = 1; $orderOfTemps[$x] != null; $x++) {
+            echo ',' . $orderOfTemps[$x];
+        }
+
         echo "]";
         echo ");\n";
     }
