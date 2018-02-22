@@ -44,6 +44,9 @@ div.wrapper{
   display: inline-block;
   padding: 5px;
 }
+.dateInput {
+  width: 110px;
+}
 
 #curve_chart {
   width:95%;
