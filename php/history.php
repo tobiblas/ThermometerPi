@@ -1,5 +1,4 @@
-<html>
-<head>
+
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
 google.charts.load('current', {'packages':['corechart']});
@@ -38,23 +37,7 @@ function drawChart() {
     ksort($dataPoints);
 
     #print_r($dataPoints);
-
-    #data.addRow(["J", null,  3.5, 0.5, 1]);
-    #data.addRow(["K", 'Pellets av',  4, 1, 0.5]);
-    # ,['2016-11-09 04:00:05',-0.02, null, null, null]
-
-#    [2018-02-21 10:59] => Array
-#         (
-#             [Pellets av] => 0.74
-#             [Malmö, Sweden] => 0.74
-#         )
-#
-#     [2018-02-21 11:00] => Array
-#         (
-#             [Malmö, Sweden] => 0.74
-#             [Kitchen] => 23.125
-#         )
-#print_r($locations);
+    #print_r($locations);
     # k är datum, v är en ARRAY name -> temp, där name kan vara en annotation
     foreach ($dataPoints as $k => $datapoint) {
         echo 'data.addRow(["' . $k . '"';
@@ -64,17 +47,13 @@ function drawChart() {
           array_push($orderOfTemps, null);
         }
         foreach ($datapoint as $locationOrLabel => $temp) {
-          #echo ( $locationOrLabel);
             if (in_array($locationOrLabel, $locations)) {
               $indexInArray = array_search("$locationOrLabel",$locations);
-          #    echo "searching for " . $locationOrLabel . " in locations. Result " . $indexInArray;
               $orderOfTemps[$indexInArray+1] = $temp;
             } else {
               $orderOfTemps[0] = $locationOrLabel;
             }
         }
-        #echo "orderoftemps:";
-        #print_r($orderOfTemps);
 
         $label = $orderOfTemps[0];
         if ($label == null) {
@@ -98,8 +77,8 @@ function drawChart() {
     ?>
 
     var options = {
-    title: 'Temperature',
     curveType: 'function',
+    /*chartArea:{left:100,top:50,width:"70%",height:"70%"},*/
     legend: { position: 'bottom' },
     annotations: {
             style: 'line'
@@ -114,8 +93,30 @@ function drawChart() {
 </script>
 
 
-</head>
-<body>
-<div id="curve_chart" style="width: 100%; height: 100%;"></div>
-</body>
-</html>
+<div class="tabcontent">
+    <div class="filters">
+        <div class="periodfilter">
+            <select>
+              <option value="American">1w</option>
+              <option value="Andean">2w</option>
+              <option value="Chilean">1m</option>
+              <option value="Greater">2m</option>
+              <option value="James's">3m</option>
+              <option value="Lesser">6m</option>
+              <option value="Lesser">1y</option>
+              <option value="Lesser">All</option>
+            </select>
+        </div>
+        <div class="fromDate">
+          <label>From:</label>
+          <input id="date" type="date">
+        </div>
+        <div class="toDate">
+          To:
+          <input id="date" type="date">
+        </div>
+    </div>
+    <div id="curve_chart"></div>
+
+
+</div>

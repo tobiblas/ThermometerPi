@@ -3,6 +3,56 @@
     box-sizing: border-box;
 }
 
+
+body {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+body, html {
+    height: 100%;
+}
+.container {
+    display: table;
+    width: 100%;
+    height: 100%; /* this will be treated as a Minimum!
+                     It will stretch to fit content */
+}
+div.wrapper{
+    display:table-row;
+    height:0px; /* take as little as possible,
+                   while still fitting content */
+}
+.tabcontent {
+    display:table-cell;
+    height:100%; /* take as much as possible */
+}
+
+.filters {
+  width: 100%;
+  text-align: center;
+}
+
+.periodfilter {
+  display: inline-block;
+  padding: 5px;
+}
+.fromDate {
+  display: inline-block;
+  padding: 5px;
+}
+.toDate {
+  display: inline-block;
+  padding: 5px;
+}
+
+#curve_chart {
+  width:95%;
+  height:90%;
+  display: block;
+  margin: 0 auto;
+}
+
+
 body {
     margin: 0px;
 }
@@ -109,7 +159,7 @@ hr {
     font-style:bold
     height: 50px;
     line-height: 50px;
-    
+
 }
 
 #setting {

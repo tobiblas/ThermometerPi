@@ -2,6 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Home admin</title>
+<?php date_default_timezone_set("Europe/Paris"); ?>
 <link rel="stylesheet" href="styles.css?<?php echo date('l jS \of F Y h:i:s A'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -27,7 +28,7 @@ function menuselected(itemselected) {
         url = url.substr(0, url.indexOf('?'));
     }
     url += '?menuitem=' + itemselected;
-    
+
     window.location.href = url;
 }
 
@@ -37,37 +38,38 @@ function menuselected(itemselected) {
 </head>
 <body>
 
+<div class="container">
+  <div class="wrapper">
+    <div class="header">
+    <h1>Temperature Staffanstorpsvägen</h1>
+    </div>
 
-<div class="header">
-<h1>Temperature Staffanstorpsvägen 29</h1>
-</div>
+    <div class="row">
 
-<div class="row">
+        <?php
+            $menuselected = 0;
+            $menuitem = $_GET['menuitem'];
+            if ($menuitem == 1) {
+                $menuselected = 1;
+            } else if ($menuitem == 2) {
+                $menuselected = 2;
+            }
+        ?>
 
-<?php
-    $menuselected = 0;
-    $menuitem = $_GET['menuitem'];
-    if ($menuitem == 1) {
-        $menuselected = 1;
-    } else if ($menuitem == 2) {
-        $menuselected = 2;
-    }
-?>
-
-<div class="col-4 menu">
-    <input type="checkbox" <?php echo ($menuselected == 0 ? "checked " : "");?> onclick="menuselected(0)" class="menucheckbox" id="menucheckbox1">
-<label class="menulabel" for="menucheckbox1" <?php echo ($menuselected == 0 ? "style='background-color :#477186;'" : "") ?> >Status</label>
-</div>
-<div class="col-4 menu">
-    <input type="checkbox" <?php echo ($menuselected == 1 ? "checked " : "");?> onclick="menuselected(1)" class="menucheckbox" id="menucheckbox2">
-    <label class="menulabel" for="menucheckbox2" <?php echo ($menuselected == 1 ? "style='background-color :#477186;'" : "") ?> >History</label>
-</div>
-<div class="col-4 menu">
-<input type="checkbox" <?php echo ($menuselected == 2 ? "checked " : "");?> onclick="menuselected(2)" class="menucheckbox" id="menucheckbox3">
-<label class="menulabel" for="menucheckbox3" <?php echo ($menuselected == 2 ? "style='background-color :#477186;'" : "") ?> >Settings</label>
-</div>
-
-</div>
+        <div class="col-4 menu">
+            <input type="checkbox" <?php echo ($menuselected == 0 ? "checked " : "");?> onclick="menuselected(0)" class="menucheckbox" id="menucheckbox1">
+            <label class="menulabel" for="menucheckbox1" <?php echo ($menuselected == 0 ? "style='background-color :#477186;'" : "") ?> >Status</label>
+        </div>
+        <div class="col-4 menu">
+            <input type="checkbox" <?php echo ($menuselected == 1 ? "checked " : "");?> onclick="menuselected(1)" class="menucheckbox" id="menucheckbox2">
+            <label class="menulabel" for="menucheckbox2" <?php echo ($menuselected == 1 ? "style='background-color :#477186;'" : "") ?> >History</label>
+        </div>
+        <div class="col-4 menu">
+            <input type="checkbox" <?php echo ($menuselected == 2 ? "checked " : "");?> onclick="menuselected(2)" class="menucheckbox" id="menucheckbox3">
+            <label class="menulabel" for="menucheckbox3" <?php echo ($menuselected == 2 ? "style='background-color :#477186;'" : "") ?> >Settings</label>
+        </div>
+    </div>
+  </div>
 
 
 <?php
@@ -79,6 +81,7 @@ function menuselected(itemselected) {
         include("settings.php");
     }
 ?>
+</div>
 
 </body>
 </html>
