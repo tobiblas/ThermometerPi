@@ -25,7 +25,7 @@ phpPath = subprocess.Popen("which php", shell=True, stdout=subprocess.PIPE).stdo
 
 if "php" not in phpPath:
     print "installing php  (might take a while..)"
-    print subprocess.Popen("sudo apt-get install php5 libapache2-mod-php5 -y", shell=True, stdout=subprocess.PIPE).stdout.read()
+    print subprocess.Popen("sudo apt-get install php -y", shell=True, stdout=subprocess.PIPE).stdout.read()
 else:
     print "php already installed. Skipping"
 
